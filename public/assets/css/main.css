@@ -1,0 +1,238 @@
+.product_ad a{
+    text-decoration: none;
+}
+.product_ad{
+    border: solid 2px #355E3B;
+    
+}
+.nav-link{   
+    color: white;
+}
+.nav-link:hover{
+    color: #D2B48C;
+}
+.navbar-brand h3{
+    color: white;
+}
+.navbar-brand h3:hover{
+    color: #D2B48C;
+}
+.navbg {
+    background:#355E3B;
+}
+.search__row{
+    background:#355E3B;
+    margin-right: 0;
+    margin-left: 0;
+    width: 100%;
+}
+.search_input{
+    height: 50px;
+    border-radius: 0%;
+}
+#top{
+    position:sticky !important;
+    top:0px;
+}
+.action_btn{
+    background:#355E3B;
+    color: white;
+    font-size: 14px;
+	font-weight: 800;
+	height: 50px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 13px 30px 12px;
+	border: none;
+    border-radius: 0%;
+}
+.action_btn:hover{
+    background: #D2B48C;
+}
+
+input{
+    border-radius: 0% !important;
+}
+.user__menu ul{
+    list-style: none;
+    padding: 0;
+}
+.user__menu li{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    border-top: 1px solid rgb(193, 225, 193,0.3);
+}
+.user__menu li a{
+    text-decoration: none;
+    color: black;
+}
+.user_bg{
+    background: rgb(193, 225, 193,0.3);
+    min-height: 700px;
+}
+.user_col{
+    background: white;
+}
+.user__menu li a:hover{
+    color: green ;
+}
+.ad{
+    border: 1px solid rgb(53, 94, 59, 0.4);
+    transition: transform .2s;
+}
+.ad:hover{
+    transform: scale(1.05);
+}
+.dropdown:hover>.dropdown-menu {
+    display: block;
+    /* left: 100%;
+    top: -7px; */
+  }
+  
+  .dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+      pointer-events: none;
+  }
+  .dropdown-menu li{
+    padding: 5px;
+  }
+
+  .dropend:hover>.dropdown-menu {
+    display:contents;
+    position: absolute;
+    left:50%;
+   top: -12px;
+  }
+  .dropend{
+    position: relative;
+  }
+  .dropmenu{
+    list-style: none;
+  }
+  .dropmenu li{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    border-top: 1px solid rgb(193, 225, 193,0.3);
+  }
+  
+  .dropend a{
+    text-decoration: none !important;
+    color: black;
+   
+  }
+  .dropend .dropdown-menu li{
+    border: none;
+    padding: auto;
+  }
+ .dropend:hover{
+   background-color: rgb(193, 225, 193,0.3);
+  }
+  .dropend .dropdown-menu li a:hover{
+    background-color: #D2B48C;
+  }
+
+  .catmenu{
+    background-color: white;
+  }
+
+  .pro_link{
+    text-decoration: none;
+    color: black;
+  }
+  .cat_link a{
+    text-decoration: none;
+    color: black;
+  }
+  .cat_link:hover{
+    background-color: rgb(193, 225, 193,0.3);
+  }
+  .contact{
+    border: 1px solid rgb(193, 225, 193,0.4);
+    
+  }
+
+
+  /* Basic styles for ratings and comments */
+  .rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    padding: 10px;
+}
+
+.rating-stars input {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 2em;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating-stars input:checked ~ label {
+    color: #f39c12;
+}
+
+.rating-stars label:hover, 
+.rating-stars label:hover ~ label {
+    color: #f39c12;
+}
+
+.comment-form {
+    margin: 20px 0;
+}
+
+.comments-section {
+    margin-top: 30px;
+}
+
+.comment-box {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.average-rating {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.rectangle{
+    border: 1px solid rgb(193, 225, 193,0.4);
+    background-color: rgb(193, 225, 193,0.4);
+    height: 100%;
+}
+
+.sm_btn{
+    background:#355E3B;
+    color: white;
+    font-size: 14px;
+	font-weight: 700;
+	height: 30px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 5px 30px 12px;
+	border: none;
+    border-radius: 0%;
+}
+.sm_btn:hover{
+    background: #D2B48C;
+}
+
+.shop_link{
+    color: black;
+    text-decoration: none;
+}
+
+.shop_link:hover{
+    text-decoration: underline;
+    color: #355E3B;
+}
+.logout_btn{
+    border: 0;
+    background-color: #355E3B;
+    color: white;
+}
