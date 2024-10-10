@@ -16,10 +16,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureCatIdIsset;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/',[UserController::class, 'home'])->name('homepage');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -63,7 +60,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/famarket/shop/{id}',[ShopController::class, 'shop'])->name('shop');
-Route::get('/famarket',[UserController::class, 'home'])->name('homepage');
+
 
 
 Route::get('/famarket/category/{id}',[CategoryController::class, 'show'])->name('category.show');
