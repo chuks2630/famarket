@@ -5,14 +5,20 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
     //
     public function home(){
-        $products = Product::with('lga.state')->take(10)->where('status','approved')->get();
-        $categories = Category::with('subcategories')->get();
-        return view("index",['categories'=> $categories, 'products'=> $products]);
+        $products = Cache::remember('product.all', now()->addMinutes(60), function(){
+            return Product::with('lga.state')->take(10)->where('status','approved')->get();
+        });
+
+        $categories = Cache::remember('category.all', now()->addMinutes(60), function(){
+            return Category::with('subcategories')->get();
+        });
+        return view("index", compact('categories', 'products'));
     }
 
     public function signup(){
@@ -43,5 +49,14 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('alluser')->with('success', 'User status changed');
+    }
+
+    public function about(){
+        return view('aboutus');
+    }
+
+    public function termsAndCon(){
+
+        return view('terms_and_condition');
     }
 }

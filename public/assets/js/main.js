@@ -1,13 +1,4 @@
-/*  ---------------------------------------------------
-    Template Name: Ogani
-    Description:  Ogani eCommerce  HTML Template
-    Author: Colorlib
-    Author URI: https://colorlib.com
-    Version: 1.0
-    Created: Colorlib
----------------------------------------------------------  */
 
-'use strict';
 
 (function ($) {
 
@@ -17,18 +8,6 @@
     $(window).on('load', function () {
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
-
-        /*------------------
-            Gallery filter
-        --------------------*/
-        $('.featured__controls li').on('click', function () {
-            $('.featured__controls li').removeClass('active');
-            $(this).addClass('active');
-        });
-        if ($('.featured__filter').length > 0) {
-            var containerEl = document.querySelector('.featured__filter');
-            var mixer = mixitup(containerEl);
-        }
     });
 
     /*------------------
@@ -39,192 +18,216 @@
         $(this).css('background-image', 'url(' + bg + ')');
     });
 
-    //Humberger Menu
-    $(".humberger__open").on('click', function () {
-        $(".humberger__menu__wrapper").addClass("show__humberger__menu__wrapper");
-        $(".humberger__menu__overlay").addClass("active");
-        $("body").addClass("over_hid");
-    });
+    //checking logged in status before calling setInterval
+    const isLoggedIn = document.querySelector('meta[name="user-logged-in"]').content === 'true';
+    if(isLoggedIn){
+        setInterval(getUnreadCount(), 10000);
+    }
 
-    $(".humberger__menu__overlay").on('click', function () {
-        $(".humberger__menu__wrapper").removeClass("show__humberger__menu__wrapper");
-        $(".humberger__menu__overlay").removeClass("active");
-        $("body").removeClass("over_hid");
-    });
+    //logout
+    $('#logoutBtn').click(function(e){
+        e.preventDefault();
+        $('#logoutForm').submit();
+      });
 
-    /*------------------
-		Navigation
-	--------------------*/
-    $(".mobile-menu").slicknav({
-        prependTo: '#mobile-menu-wrap',
-        allowParentLinks: true
-    });
-
-    /*-----------------------
-        Categories Slider
-    ------------------------*/
-    $(".categories__slider").owlCarousel({
-        loop: true,
-        margin: 0,
-        items: 4,
-        dots: false,
-        nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
-        animateOut: 'fadeOut',
-        animateIn: 'fadeIn',
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true,
-        responsive: {
-
-            0: {
-                items: 1,
-            },
-
-            480: {
-                items: 2,
-            },
-
-            768: {
-                items: 3,
-            },
-
-            992: {
-                items: 4,
-            }
+      
+    $('#start-message').on('input',function(){
+       let value = $(this).val();
+        if(value.length > 0){
+            $('#subbtn').removeAttr('disabled');
+        }else{
+            $('#subbtn').attr('disabled', 'disabled');
         }
+        
+    });
+
+    $('#conversation').click(()=>{
+        $('#convo').removeClass('d-none');
+        $('#start-chat').addClass('d-none');
+    });
+    $('#closebtn').click(()=>{
+        $('#convo').addClass('d-none');
+        $('#start-chat').removeClass('d-none');
     });
 
 
-    // $('.hero__categories__all').on('click', function(){
-    //     $('.hero__categories ul').slideToggle(400);
-    // });
-
-    /*--------------------------
-        Latest Product Slider
-    ----------------------------*/
-    $(".latest-product__slider").owlCarousel({
-        loop: true,
-        margin: 0,
-        items: 1,
-        dots: false,
-        nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true
+    $('.bookmark').hover(function(){
+        $(this).addClass('hovereffect')
+    }, function(){
+        $(this).removeClass('hovereffect')
     });
 
-    /*-----------------------------
-        Product Discount Slider
-    -------------------------------*/
-    $(".product__discount__slider").owlCarousel({
-        loop: true,
-        margin: 0,
-        items: 3,
-        dots: true,
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true,
-        responsive: {
 
-            320: {
-                items: 1,
-            },
-
-            480: {
-                items: 2,
-            },
-
-            768: {
-                items: 2,
-            },
-
-            992: {
-                items: 3,
-            }
-        }
-    });
-
-    /*---------------------------------
-        Product Details Pic Slider
-    ----------------------------------*/
-    $(".product__details__pic__slider").owlCarousel({
-        loop: true,
-        margin: 20,
-        items: 4,
-        dots: true,
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true
-    });
-
-    /*-----------------------
-		Price Range Slider
-	------------------------ */
-    var rangeSlider = $(".price-range"),
-        minamount = $("#minamount"),
-        maxamount = $("#maxamount"),
-        minPrice = rangeSlider.data('min'),
-        maxPrice = rangeSlider.data('max');
-    rangeSlider.slider({
-        range: true,
-        min: minPrice,
-        max: maxPrice,
-        values: [minPrice, maxPrice],
-        slide: function (event, ui) {
-            minamount.val('$' + ui.values[0]);
-            maxamount.val('$' + ui.values[1]);
-        }
-    });
-    minamount.val('$' + rangeSlider.slider("values", 0));
-    maxamount.val('$' + rangeSlider.slider("values", 1));
-
-    /*--------------------------
-        Select
-    ----------------------------*/
-    $("select").niceSelect();
-
-    /*------------------
-		Single Product
-	--------------------*/
-    $('.product__details__pic__slider img').on('click', function () {
-
-        var imgurl = $(this).data('imgbigurl');
-        var bigImg = $('.product__details__pic__item--large').attr('src');
-        if (imgurl != bigImg) {
-            $('.product__details__pic__item--large').attr({
-                src: imgurl
+    $('.bookmark').click(function(e){
+        e.preventDefault();
+        const product_id = $(this).data('value');
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+       const data = {product_id: product_id, _token: csrfToken };
+       $.post('/saved-ads', data).done(function(response){
+        if(response){
+            Swal.fire({
+                title: 'Success!',
+                text: response.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                timer: 3000
             });
         }
-    });
-
-    /*-------------------
-		Quantity change
-	--------------------- */
-    var proQty = $('.pro-qty');
-    proQty.prepend('<span class="dec qtybtn">-</span>');
-    proQty.append('<span class="inc qtybtn">+</span>');
-    proQty.on('click', '.qtybtn', function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        $button.parent().find('input').val(newVal);
-    });
-
-    $('.featured_ads').hover(function(){
-        $(this).addClass('shadow');
-    },function(){
-        $(this).removeClass('shadow');
+       }).fail( function(xhr, status,error){
+        console.error("Error:", xhr.responseText);
+            Swal.fire({
+                title: 'Error!',
+                text: "Please Ensure that you're logged in",
+                icon: 'error',
+                confirmButtonText: 'OK',
+                timer: 3000
+            });
+       
+       });
     })
 
+
+    $('#start-conversation').submit((e)=>{
+        e.preventDefault();
+        const participant = $('#participant').val();
+        const message =$('#start-message').val();
+        let csrfToken = $('meta[name="csrf-token"]').attr('content');
+        const url = '/api/conversation';
+       
+        const sendOptions = {
+            method: 'POST',
+            headers: { 
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({'participant': participant, 'message': message})
+        };
+
+        fetch(url, sendOptions)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data)
+            $('#start-message').val('');
+        }).catch(error => console.error('Error fetching conversations:', error));
+    });
+
+
+    $('#message-box').submit((e)=>{
+        e.preventDefault();
+        const message = $('#messageInput').val();
+        const conversationId = $('#conversationId').val();
+        let csrfToken = $('meta[name="csrf-token"]').attr('content');
+        const url = '/api/messages';
+
+        const sendOptions = {
+            method: 'POST',
+            headers: { 
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({'conversation_id': conversationId, 'message': message})
+        };
+        fetch(url, sendOptions)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data)
+            const newMessage = "<div class='message-container sender-message-container'><div class='message-bubble sender-message-bubble'>"+data.message+"</div></div>";
+            $('#messages').append(newMessage);
+            $('#messageInput').val('');
+        }).catch(error => console.error('Error fetching conversations:', error));
+
+        markAsRead(conversationId);
+    });
+
+
+    function markAsRead(conversation){
+        const url = '/api/messages';
+        let csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        const sendOptions = {
+        method: 'PATCH',
+        headers: { 
+            'Accept' : 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({'conversation_id': conversation})
+    };
+    fetch(url, sendOptions)
+    .then(response => response.json())
+    .then(data => {
+        if(data.status == 200){
+          $('#messageBadge').removeAttr('data-badge');
+        }
+    }).catch(error => console.error('Error fetching conversations:', error));
+      };
+
+
+      function getUnreadCount() {
+        
+        $.ajax({
+            url: '/api/unread-message',
+            method: 'GET',
+            success: function(response) {
+              // Display the count
+              if(response.unreadCount > 0){
+                $('#messageBadge').attr('data-badge',response.unreadCount);
+              }
+                 
+            },
+            error: function(error) {
+                console.error("Error fetching unread count", error);
+            }
+        });
+    }
+
+    //category price range filter
+    $('#priceRange').submit(function(e){
+        e.preventDefault();
+        const url = window.location.href;
+        const parameter = url.split('/')
+       console.log(parameter[4]);
+        const minPrice = $('#minPrice').val();
+        const maxPrice = $('#maxPrice').val();
+        let csrfToken = $('meta[name="csrf-token"]').attr('content');
+        const data = {maxPrice: maxPrice, minPrice: minPrice, catId: parameter[4], _token: csrfToken }
+        
+        //making a request to the server
+        $.post('/filter-price', data).done(function(response){
+            // console.log(response);
+
+            $('#productContainer').empty();
+
+            //looping through products
+            if(response.products != ''){
+            response.products.forEach(prod => {
+                $('#productContainer').append(`
+                    <div class="col-md-4">
+                        <div class=" m-2 ad">
+                            <a href="/detail/${prod.id}" class="pro_link">
+                            <div><img src="/storage/${prod.filename}" alt="" class="img-fluid"></div>
+                            <div class="p-2">
+                                <div class="bookmark" data-value="${prod.id}"><i class="fa-regular fa-bookmark"></i></div>
+                                <p class="my-1"><b>&#8358; ${Number(prod.price).toFixed(2)}</b></p>
+                                <p class="my-1" style="font-size: large">${prod.title}</p>
+                                <p  class="text-muted" style="font-size: small">${prod.description.substring(0,100)}</p>
+                                <p style="font-size: x-small" class="text-muted mb-0"><i class="fa-solid fa-location-dot"></i> ${prod.lga.name+' '+prod.lga.state.name}</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                `)
+            });
+        }else{
+
+            $('#productContainer').html(`<p style="font-size: large" class="text-muted text-center mt-5">Sorry no ads Matches this Criteria</p>`)
+        }
+        }).fail( function(xhr, status,error){
+            console.error("Error:", xhr.responseText);
+        });
+    });
+
 })(jQuery);
+

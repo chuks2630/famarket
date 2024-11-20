@@ -65,7 +65,7 @@
         <div class="row py-3 gx-0 my-3">
             <small class="text-center text-muted mb-3">Seller</small>
             <div class="col-4 ps-2">
-                <img src="/assets/img/default.png" alt="" style="width:70%; border-radius: 100%">
+                <img src="/storage/{{$user->profile_pic}}" alt="" style="width:70%; border-radius: 100%">
             </div>
             <div class="col-7 p-2">
                 @isset($shop->shopname)
@@ -76,8 +76,21 @@
                 <p class="text-center"><a href="{{route('shop', $user->id)}}" class="shop_link">{{$user->firstname.' '.$user->lastname}}</a></p>
                 @endempty
             </div>
-            <div class="col-md-12 my-3">
+            <div class="col-md-12 my-2">
                 <button class="btn btn-success col-12"><i class="fa-solid fa-phone"></i>  {{$user->phone}}</button>
+            </div>
+            <div class="col-md-12 mt-1">  
+                <div class=" d-none" id="convo">
+                    <button type="button" class="btn-close mb-2" aria-label="Close" id="closebtn"></button>
+                    <form action="" id="start-conversation">
+                        <input type="hidden" id="participant" value="{{$user->id}}">
+                        <input type="text" name="message" class="form-control" placeholder="Type Message" id="start-message">
+                        <button type="submit" id="subbtn" class="btn btn-warning col-12 mt-2" disabled>Start Chat</button>
+                    </form>
+                </div>
+                <div id="start-chat">
+                <button class="btn btn-outline-success col-12"  id="conversation"><i class="fa-regular fa-message"></i> Start Chat</button>
+                </div>
             </div>
         </div>
         <div>

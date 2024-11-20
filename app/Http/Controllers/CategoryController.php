@@ -59,4 +59,18 @@ class CategoryController extends Controller
         
         return view('admin_category', ['cats'=> $cats, 'user' => $request->user()]);
     }
+
+    public function priceFilter(Request $request){
+
+        $validated = $request->validate([
+            'catId' => 'required|numeric',
+            'minPrice' =>'numeric',
+            'maxPrice' => 'numeric',
+        ]);
+
+        $products = Product::with('lga.state')->where('subcat_id', $validated['catId'])->whereBetween('price', [$validated['minPrice'], $validated['maxPrice']])->get();
+
+        return response()->json(['products'=>$products]);
+        
+    }
 }

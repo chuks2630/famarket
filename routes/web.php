@@ -1,77 +1,98 @@
 <?php
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\EquipmentController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\ShopAddController;
 use App\Http\Controllers\LgaController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\EnsureCatIdIsset;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopAddController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Middleware\EnsureCatIdIsset;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\SavedadController;
 
 Route::get('/',[UserController::class, 'home'])->name('homepage');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
-    Route::get('famarket/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('famarket/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/famarket/myads',[AdController::class, 'showmyads'])->name('myads');
-    Route::post('/famarket/myads',[AdController::class, 'destroy'])->name('myads.destroy');
+    Route::get('/myads',[AdController::class, 'showmyads'])->name('myads');
+    Route::post('/myads',[AdController::class, 'destroy'])->name('myads.destroy');
 
-    Route::get('/famarket/postad',[AdController::class, 'show'])->name('postad');
-    Route::post('/famarket/postad',[AdController::class, 'form'])->name('postad.form');
+    Route::get('/postad',[AdController::class, 'show'])->name('postad');
+    Route::post('/postad',[AdController::class, 'form'])->name('postad.form');
    
-    Route::get('/famarket/productad',[ProductController::class, 'show'])->middleware(EnsureCatIdIsset::class)->name('productad');
-    Route::post('/famarket/productad',[ProductController::class, 'store'])->name('productad.store');
-    Route::get('/famarket/p_addpics/{id}',[ProductController::class, 'imgView']);
-    Route::post('/famarket/p_addpics/{id}',[ProductController::class, 'imageUpload'])->name('imageupload');
-    Route::get('/famarket/editad/{id}',[ProductController::class, 'editShow'])->name('editad');
-    Route::patch('/famarket/editad/{id}',[ProductController::class, 'editProduct'])->name('editproduct');
+    Route::get('/productad',[ProductController::class, 'show'])->middleware(EnsureCatIdIsset::class)->name('productad');
+    Route::post('/productad',[ProductController::class, 'store'])->name('productad.store');
+    Route::get('/p_addpics/{id}',[ProductController::class, 'imgView']);
+    Route::post('/p_addpics/{id}',[ProductController::class, 'imageUpload'])->name('imageupload');
+    Route::get('/editad/{id}',[ProductController::class, 'editShow'])->name('editad');
+    Route::patch('/editad/{id}',[ProductController::class, 'editProduct'])->name('editproduct');
    
-    Route::get('/famarket/equipmentad',[EquipmentController::class, 'show'])->middleware(EnsureCatIdIsset::class)->name('equipmentad');
-    Route::post('/famarket/equipmentad',[EquipmentController::class, 'store'])->name('equipmentad.store');
-    Route::get('/famarket/editeqad/{id}',[EquipmentController::class, 'editShow'])->name('editeq.show');
-    Route::patch('/famarket/editeqad/{id}',[EquipmentController::class, 'editEquipment'])->name('editeq');
-    Route::get('/famarket/e_addpics/{id}',[EquipmentController::class, 'imgView']);
-    Route::post('/famarket/e_addpics/{id}',[EquipmentController::class, 'imageUpload'])->name('imageupload2');
+    Route::get('/equipmentad',[EquipmentController::class, 'show'])->middleware(EnsureCatIdIsset::class)->name('equipmentad');
+    Route::post('/equipmentad',[EquipmentController::class, 'store'])->name('equipmentad.store');
+    Route::get('/editeqad/{id}',[EquipmentController::class, 'editShow'])->name('editeq.show');
+    Route::patch('/editeqad/{id}',[EquipmentController::class, 'editEquipment'])->name('editeq');
+    Route::get('/e_addpics/{id}',[EquipmentController::class, 'imgView']);
+    Route::post('/e_addpics/{id}',[EquipmentController::class, 'imageUpload'])->name('imageupload2');
 
-    Route::get('/famarket/businessname',[ShopController::class, 'show'])->name('businessname');
-    Route::post('/famarket/businessname',[ShopController::class, 'store'])->name('businessname.store');
-    Route::patch('/famarket/businessname',[ShopController::class, 'update'])->name('businessname.update');
+    Route::get('/businessname',[ShopController::class, 'show'])->name('businessname');
+    Route::post('/businessname',[ShopController::class, 'store'])->name('businessname.store');
+    Route::patch('/businessname',[ShopController::class, 'update'])->name('businessname.update');
 
-    Route::get('/famarket/storeaddress',[ShopAddController::class, 'show'])->name('storeadd');
-    Route::get('/famarket/createstoreadd',[ShopAddController::class, 'showForm'])->name('storeaddress');
-    Route::post('/famarket/createstoreadd',[ShopAddController::class, 'store'])->name('address.store');
+    Route::get('/storeaddress',[ShopAddController::class, 'show'])->name('storeadd');
+    Route::get('/createstoreadd',[ShopAddController::class, 'showForm'])->name('storeaddress');
+    Route::post('/createstoreadd',[ShopAddController::class, 'store'])->name('address.store');
 
     Route::get('/getlga',[LgaController::class, 'fetchLga'])->name('getlga');
-    Route::post('/famarket/feedback',[CommentController::class, 'store'])->name('comment.store');
+    Route::post('/feedback',[CommentController::class, 'store'])->name('comment.store');
+    Route::get('/messages', [ConversationController::class, 'show'])->name('messages.show');
+
+Route::get('/api/conversation', [ConversationController::class, 'index'] );
+Route::get('/api/conversation/{id}', [ConversationController::class, 'fetchConversation'] );
+Route::post('/api/conversation', [ConversationController::class, 'store']);
+
+Route::post('/api/messages', [MessageController::class, 'store']);
+Route::patch('/api/messages', [MessageController::class, 'update']);
+Route::get('/api/unread-message', [MessageController::class, 'getUnreadmessages']);
+
+Route::get('/saved-ads', [SavedadController::class, 'show'])->name('savedAds.show');
+Route::post('/saved-ads', [SavedadController::class, 'store'])->name('savedAds.store');
 });
 
 
-Route::get('/famarket/shop/{id}',[ShopController::class, 'shop'])->name('shop');
+Route::get('/shop/{id}',[ShopController::class, 'shop'])->name('shop');
 
 
 
-Route::get('/famarket/category/{id}',[CategoryController::class, 'show'])->name('category.show');
-Route::get('/famarket/detail/{id}',[CategoryController::class, 'adDetail'])->name('addetail.show');
-Route::get('/famarket/eqdetail/{id}',[CategoryController::class, 'eqDetail'])->name('eqdetail.show');
+Route::get('/category/{id}',[CategoryController::class, 'show'])->name('category.show');
+Route::post('/filter-price', [CategoryController::class, 'priceFilter']);
+Route::get('/detail/{id}',[CategoryController::class, 'adDetail'])->name('addetail.show');
+Route::get('/eqdetail/{id}',[CategoryController::class, 'eqDetail'])->name('eqdetail.show');
 
-Route::get('/famarket/feedback/{id}',[CommentController::class, 'show'])->name('comment.show');
-Route::get('/famarket/review/{id}',[CommentController::class, 'showEq'])->name('review.show');
+Route::get('/feedback/{id}',[CommentController::class, 'show'])->name('comment.show');
+Route::get('/review/{id}',[CommentController::class, 'showEq'])->name('review.show');
 
 Route::get('/products/search', [SearchController::class, 'ajaxSearch'])->name('search');
 Route::get('/category/search', [SearchController::class, 'search'])->name('searchcat');
+Route::get('/about-us', [UserController::class, 'about'])->name('aboutus');
+Route::get('/terms', [UserController::class, 'termsAndCon'])->name('notice');
+
 
 //admin routes start here
 // Admin routes

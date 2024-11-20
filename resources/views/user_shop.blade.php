@@ -23,6 +23,7 @@
                     <a href="{{route('addetail.show',['id'=> $prod->id])}}" class="pro_link">
                     <div><img src="/storage/{{$prod->filename}}" alt="" class="img-fluid"></div>
                     <div class="p-2">
+                        <div class="bookmark" data-value="{{$prod->id}}"><i class="fa-regular fa-bookmark"></i></div>
                          <p class="my-1"><b>&#8358; {{number_format($prod->price, 2, '.',',')}}</b></p>
                          <p class="my-1" style="font-size: large">{{$prod->title}}</p>
                          <p  class="text-muted" style="font-size: small">{{substr($prod->description,0,100)}}</p>

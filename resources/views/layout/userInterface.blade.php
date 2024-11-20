@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-logged-in" content="{{ auth()->check() ? 'true' : 'false' }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
     <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
@@ -13,11 +16,11 @@
 
 </head>
 <body class="user_bg">
-    <div class="container-fluid">
+    <div class="container-fluid px-0">
         <div class="row" id="top">
-            <div class="col mx-0 px-0">
+            <div class="col">
                    <!--nav start-->
-                <nav class="navbar navbar-expand-lg navbg">
+                <nav class="navbar navbar-expand-lg navbg navbar-dark">
                     <div class="container-fluid ">
                         <a class="navbar-brand" href="{{route('homepage')}}"><h3>FAMARKET</h3></a>
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,25 +29,35 @@
                       <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                         <ul class="navbar-nav">
                           @auth
-                          <li class="nav-item">
-                            <a class="nav-link" href="{{route('postad')}}"><i class="fa-solid fa-display"></i> Post Ad</a>
+                          <li class="nav-item notification-badges mx-1">
+                            <a class="navbar-brand" href="{{route('messages.show')}}" data-bs-toggle="tooltip" title="My messages"  id="messageBadge"><img src="/assets/img/chat.svg" class="nav-icon" alt="icon"></a>
                           </li> 
-                          <li class="nav-item dropdown me-2">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                 My Account
-                            </a>
-                            <ul class="dropdown-menu px-0">
-                              <li><a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a></li>
-                              <li><a class="dropdown-item" href="{{route('shop', Auth::user()->id)}}">Shop</a></li>
-                              <li><a class="dropdown-item" href="{{route('myads')}}">My ads</a></li>
-                            </ul>
+    
+                          <li class="nav-item mt-1">
+                            <a class="navbar-brand" href="" data-bs-toggle="tooltip" title="Bookmarks"><img src="/assets/img/bookmark.svg" class="nav-icon" alt="icon"></a>
                           </li>
-                          <li class="nav-item">
-                            <form method="POST" action="{{ route('logout') }}">
-                              @csrf
-                              <button type="submit" class="mt-1 pt-1 logout_btn">logout</button>
-                          </form>
-                          </li>
+    
+                          <li class="nav-item mx-1 mt-2">
+                            <a class=" btn btn-warning btn-sm" href="{{route('postad')}}">SELL</a>
+                          </li> 
+                              
+                              <li class="nav-item dropdown ms-2 mt-1">
+                                
+                                <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <i class="fa-regular fa-circle-user" style="font-size: 1.2em"></i> Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a></li>
+                                  <li><a class="dropdown-item" href="{{route('shop', Auth::user()->id)}}">Shop</a></li>
+                                  <li><a class="dropdown-item" href="{{route('myads')}}">My ads</a></li>
+                                  <li>
+                                    <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
+                                    <form method="POST" action="{{ route('logout') }}" id="logoutForm">
+                                      @csrf
+                                  </form>
+                                  </li>
+                                </ul>
+                              </li>
                           @endauth
                           @guest
                               
@@ -69,7 +82,7 @@
         <div class="col-md-3 user_col" style="height: 100%">
             <div class="row pt-4">
                 <div class="col text-center">
-                    <img src="/assets/img/default.png" alt="" width="80" style="border-radius: 50%;">
+                    <img src="/storage/{{$user->profile_pic}}" alt="" width="80" style="border-radius: 50%;">
                     <p>{{$user->firstname}} {{$user->lastname}}</p>
                     <p class="text-muted" style="font-size: small">{{$user->phone}}</p>
                 </div>
@@ -103,7 +116,7 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
    <script src="/assets/js/jquery-3.3.1.min.js"></script>
    <script src="/assets/js/bootstrap.min.js"></script>
-   {{-- <script src="/assets/js/main.js"></script> --}}
+   <script src="/assets/js/main.js"></script>
    @if(session('success'))
    <script>
        Swal.fire({

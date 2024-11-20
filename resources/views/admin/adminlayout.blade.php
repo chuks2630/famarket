@@ -17,7 +17,7 @@
         <div class="row" id="top">
             <div class="col mx-0 px-0">
                    <!--nav start-->
-                <nav class="navbar navbar-expand-lg navbg">
+                <nav class="navbar navbar-expand-lg navbg navbar-dark">
                     <div class="container-fluid ">
                         <a class="navbar-brand" href="{{route('homepage')}}"><h3>FAMARKET</h3></a>
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

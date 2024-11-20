@@ -5,6 +5,7 @@
                     <h4 class="text-center">My adverts</h4>
                     
                </div>
+               
                @isset($ads)
                    @foreach ($ads as $ad)
                     <div class="col-md-3">

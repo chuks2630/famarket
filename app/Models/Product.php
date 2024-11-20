@@ -17,7 +17,12 @@ class Product extends Model
         return $this->hasMany(Product_image::class,'product_id');
     }
 
-
+   
+    public function savedads(){
+        
+            return $this->hasMany(SavedAd::class);
+        }
+  
     public function lga(){
         return $this->belongsTo(Lga::class,'location_id');
     }

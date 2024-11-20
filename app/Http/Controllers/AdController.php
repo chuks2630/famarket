@@ -67,4 +67,5 @@ class AdController extends Controller
             }
         return redirect()->route('myads')->with('success', 'Ad deletion successful');
 }
+
 }

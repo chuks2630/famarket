@@ -2533,7 +2533,7 @@ body ,.container-fluid{
 
 .footer {
 	background: #D2B48C;
-	padding-top: 70px;
+	padding-top: 30px;
 	padding-bottom: 0;
 }
 
@@ -2653,13 +2653,9 @@ body ,.container-fluid{
 .footer__copyright__text {
 	font-size: 14px;
 	color: #1c1c1c;
-	float: left;
 	line-height: 25px;
 }
 
-.footer__copyright__payment {
-	float: right;
-}
 
 /*---------------------
   Contact

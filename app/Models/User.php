@@ -18,6 +18,26 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class,'user_id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function savedads(){
+        return $this->hasMany(SavedAd::class);
+    }
+
+    public function conversationAsUser1(){
+
+        return $this->hasMany(Conversation::class, 'user_1_id');
+    }
+
+    public function conversationAsUser2(){
+
+        return $this->hasMany(Conversation::class, 'user_2_id');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

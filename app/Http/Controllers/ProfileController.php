@@ -30,12 +30,19 @@ class ProfileController extends Controller
         request()->validate([
             "firstname" => "required|max:255",
             "lastname" => "required|max:255",
-            "phone" => "required|max:20",]);
+            "phone" => "required|max:20",
+            "profile-pic" => "required|file|mimes:png,jpg,jpeg|max:2048",
+        ]);
         $user->fill([
             "firstname" => $request->firstname,
             "lastname" => $request->lastname,
             "phone" =>$request->phone
         ]);
+
+        if(request()->file('profile-pic')->isValid()){
+            $filepath = request()->file('profile-pic')->store('uploads', 'public');
+            $user->profile_pic = $filepath;
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
