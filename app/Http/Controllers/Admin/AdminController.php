@@ -38,9 +38,13 @@ class AdminController extends Controller
         $state = $location->state;
 
         $s = Shop::where('user_id',$user_id)->first();
-        $shop_id = $s->id;
-        $shop = Shop::with('shop_adds')->find($shop_id);
-        return view('admin_ad_detail', ['product'=> $product, 'shop'=> $shop, 'state'=> $state, 'user'=> $user]);
+        if($s){
+            $shop_id = $s->id;
+            $shop = Shop::with('shop_adds')->find($shop_id);
+            return view('admin_ad_detail', ['product'=> $product, 'shop'=> $shop, 'state'=> $state, 'user'=> $user]);
+        }
+        
+        return view('admin_ad_detail', ['product'=> $product, 'state'=> $state, 'user'=> $user]);
     }
 
     public function eq_detail($id){

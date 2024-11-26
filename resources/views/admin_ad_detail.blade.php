@@ -65,7 +65,7 @@
         <div class="row py-3 gx-0 my-3">
             <small class="text-center text-muted mb-3">Seller</small>
             <div class="col-4 ps-2">
-                <img src="/assets/img/default.png" alt="" style="width:70%; border-radius: 100%">
+                <img src="/storage/{{$user->profile_pic}}" alt="" style="width:70%; border-radius: 100%">
             </div>
             <div class="col-7 p-2">
                 @isset($shop->shopname)

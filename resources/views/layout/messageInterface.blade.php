@@ -47,7 +47,7 @@
                       </li> 
 
                       <li class="nav-item mt-1">
-                        <a class="navbar-brand" href="" data-bs-toggle="tooltip" title="Bookmarks"><img src="/assets/img/bookmark.svg" class="nav-icon" alt="icon"></a>
+                        <a class="navbar-brand" href="{{route('savedAds.show')}}" data-bs-toggle="tooltip" title="Bookmarks"><img src="/assets/img/bookmark.svg" class="nav-icon" alt="icon"></a>
                       </li>
 
                       <li class="nav-item mx-1 mt-2">

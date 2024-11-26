@@ -6,14 +6,28 @@ use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
+use App\Http\Controllers\MessageController;
 
 class ConversationController extends Controller
 {
     //
+    protected $messageController;
+
+    public function __construct(MessageController $messageController)
+    {
+        $this->messageController = $messageController;
+    }
 
     public function show(){
         $user = Auth::user()->id;
         $conversations = Conversation::where('user_1_id',$user )->orWhere('user_2_id', $user)->with(['user1','user2','messages'])->orderBy('updated_at', 'desc')->get();
+        foreach($conversations as $conversation){
+            $request = new Request([
+                'conversation_id' => $conversation->id
+            ]);
+            $this->messageController->update($request);
+        }
+        
         return view('messaging', ['conversations'=> $conversations]);
     }
 

@@ -31,7 +31,7 @@ class ProfileController extends Controller
             "firstname" => "required|max:255",
             "lastname" => "required|max:255",
             "phone" => "required|max:20",
-            "profile-pic" => "required|file|mimes:png,jpg,jpeg|max:2048",
+            "profile-pic" => "nullable|file|mimes:png,jpg,jpeg|max:2048",
         ]);
         $user->fill([
             "firstname" => $request->firstname,
@@ -39,7 +39,7 @@ class ProfileController extends Controller
             "phone" =>$request->phone
         ]);
 
-        if(request()->file('profile-pic')->isValid()){
+        if(request()->hasFile('profile-pic') && request()->file('profile-pic')->isValid()){
             $filepath = request()->file('profile-pic')->store('uploads', 'public');
             $user->profile_pic = $filepath;
         }
